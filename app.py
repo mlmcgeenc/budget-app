@@ -32,7 +32,7 @@ class Category:
 
   def check_funds(self, check):
     balance = self.get_balance()
-    if balance > check:
+    if balance >= check:
       return True
     else:
       return False
@@ -65,9 +65,5 @@ def create_spend_chart(categories):
 firstBudget = Category("First_Budget")
 secondBudget = Category("Second_Budget")
 print("Budgets created:")
-firstBudget.deposit(100, "deposit")
-firstBudget.deposit(100, "deposit2")
-firstBudget.deposit(100, "deposit3")
-firstBudget.withdraw(100, "withdrawal")
-firstBudget.withdraw(10, "This string should truncate because it's more than")
-print(firstBudget)
+firstBudget.deposit(10, "deposit")
+print(firstBudget.check_funds(10))
