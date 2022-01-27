@@ -1,9 +1,11 @@
 class Category:
   name = ""
-  ledger = []
 
-  def __init__(self, name):
+  def __init__(self, name, ledger=None):
     self.name = name
+    if ledger is None:
+      ledger = []
+    self.ledger = ledger
 
   def get_balance(self):
     balance = 0
