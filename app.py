@@ -17,10 +17,11 @@ class Category:
       titleString = str(endCap) + self.name + str(endCap)
     for line in self.ledger:
       firstHalf = line["description"][:23] if len(line["description"]) > 23 else line["description"]
-      secondHalf = str(line["amount"]).rjust(30 - len(firstHalf))
+      secondHalf = "{:.2f}".format(line["amount"]).rjust(30 - len(firstHalf))
       lineItems.append(firstHalf + secondHalf)
     recieptBody = ("\n".join(lineItems))
-    reciept = titleString + "\n" + recieptBody
+    recieptTotal = "Total: " + "{:.2f}".format(self.get_balance())
+    reciept = titleString + "\n" + recieptBody + "\n" + recieptTotal
     return reciept
 
   def get_balance(self):
@@ -68,5 +69,5 @@ firstBudget.deposit(100, "deposit")
 firstBudget.deposit(100, "deposit2")
 firstBudget.deposit(100, "deposit3")
 firstBudget.withdraw(100, "withdrawal")
-firstBudget.withdraw(100, "This string should truncate because it's more than")
+firstBudget.withdraw(10, "This string should truncate because it's more than")
 print(firstBudget)
