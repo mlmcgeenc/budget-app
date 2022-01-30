@@ -20,7 +20,7 @@ class Category:
       secondHalf = "{:.2f}".format(line["amount"]).rjust(30 - len(firstHalf))
       lineItems.append(firstHalf + secondHalf)
     recieptBody = ("\n".join(lineItems))
-    recieptTotal = "Total: " + "{:.2f}".format(self.get_balance())
+    recieptTotal = "Total: " + "{:.2f}".format(self.get_balance()) + "\n"
     reciept = titleString + "\n" + recieptBody + "\n" + recieptTotal
     return reciept
 
@@ -59,11 +59,22 @@ class Category:
     for entry in self.ledger:
       print(entry)
 
-def create_spend_chart(categories):
-  return "Chart not yet ready"
+def create_spend_chart(*categories):
+  chartKey = ['100|', '90|', '80|', '70|', '60|', '50|', '40|', '30|', '20|', '10|', '0|']
+  rowTwo = "This string should also display vertically"
+  rows = [chartKey, rowTwo]
+  printKey = ''
+  for row in rows:
+    for element in row:
+      printKey += element.rjust(4) + "\n"
+    print(printKey)
+  return "In progress"
 
 firstBudget = Category("First_Budget")
 secondBudget = Category("Second_Budget")
 print("Budgets created:")
-firstBudget.deposit(10, "deposit")
-print(firstBudget.check_funds(10))
+firstBudget.deposit(100, "deposit")
+firstBudget.withdraw(15, "Spend")
+firstBudget.transfer(25, secondBudget)
+firstBudget.deposit(50, "deposit")
+print(create_spend_chart(firstBudget, secondBudget))
