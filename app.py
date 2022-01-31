@@ -61,32 +61,36 @@ class Category:
 
 def create_spend_chart(*categories):
   chartKey = ['100|', '90|', '80|', '70|', '60|', '50|', '40|', '30|', '20|', '10|', '0|']
-  rowTwo = "        ***_ String One"
-  rowThree = "   ********_ String Two"
-  rowFour = "       ****_ String Three"
-  #rows = [chartKey, rowTwo, rowThree, rowFour]
-  s = [chartKey, rowTwo, rowThree, rowFour]
-  #x = []
-  row = 0
-  for i in s:
-    row = max(row, len(i))
-  col = len(s)
-  ans = ["" for i in range(row)]
+  stringOne = "        ***_ String One"
+  stringTwo = "   ********_ String Two"
+  stringThree = "       ****_ String Three"
+  strings = [stringOne, stringTwo, stringThree]
+  lists = [chartKey]
+  for string in strings:
+    convertedList = [char for char in string]
+    lists.append(convertedList)
+  rowLen = 0
+  for string in strings:
+    rowLen = max(rowLen, len(string))
+  for list in lists:
+    while len(list) < rowLen:
+      list.append(" ")
+  outPut = []
+  i = 0
+  while i < rowLen:
+    outPut.append("")
+    i += 1
   j = 0
-  for i in range(col):
-      j = 0
-      while j < len(s[i]):
-        #print(j, i)
-        while i - len(ans[j]) >= 1:
-            ans[j] += " "
-        ans[j] += s[i][j]
-        j += 1
-  for word in ans:
-    print(word)
-  #for row in rows:
-  #  for element in row:
-  #    printKey += element.rjust(4) + "\n"
-  #  print(printKey)
+  while j < rowLen:
+    if outPut[j] != None:
+      for entry in lists:
+        outPut[j] = outPut[j] + entry[j]
+        continue
+      j += 1
+    else:
+      outPut[j] = outPut[j] + " "
+  for index in outPut:
+    print(index)
 
 firstBudget = Category("First_Budget")
 secondBudget = Category("Second_Budget")
