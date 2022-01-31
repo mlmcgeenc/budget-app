@@ -27,7 +27,7 @@ class Category:
   def get_balance(self):
     balance = 0
     for entry in self.ledger:
-      balance = balance + entry["amount"]
+      balance += entry["amount"]
     return balance
 
   def check_funds(self, check):
@@ -85,11 +85,11 @@ def create_spend_chart(*categories):
   while j < rowLen:
     if outPut[j] != None:
       for entry in lists:
-        outPut[j] = outPut[j] + entry[j]
+        outPut[j] += entry[j].rjust(4) if entry == chartKey else entry[j][:2].rjust(2)
         continue
       j += 1
     else:
-      outPut[j] = outPut[j] + " "
+      outPut[j] += " "
   for index in outPut:
     print(index)
 
