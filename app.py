@@ -64,6 +64,7 @@ def create_spend_chart(*categories):
   stringOne = "        ***_ String One"
   stringTwo = "   ********_ String Two"
   stringThree = "       ****_ String Three"
+  
   strings = [stringOne, stringTwo, stringThree]
   lists = [chartKey]
   for string in strings:
