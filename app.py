@@ -61,14 +61,32 @@ class Category:
 
 def create_spend_chart(*categories):
   chartKey = ['100|', '90|', '80|', '70|', '60|', '50|', '40|', '30|', '20|', '10|', '0|']
-  rowTwo = "This string should also display vertically"
-  rows = [chartKey, rowTwo]
-  printKey = ''
-  for row in rows:
-    for element in row:
-      printKey += element.rjust(4) + "\n"
-    print(printKey)
-  return "In progress"
+  rowTwo = "        ***_ String One"
+  rowThree = "   ********_ String Two"
+  rowFour = "       ****_ String Three"
+  #rows = [chartKey, rowTwo, rowThree, rowFour]
+  s = [chartKey, rowTwo, rowThree, rowFour]
+  #x = []
+  row = 0
+  for i in s:
+    row = max(row, len(i))
+  col = len(s)
+  ans = ["" for i in range(row)]
+  j = 0
+  for i in range(col):
+      j = 0
+      while j < len(s[i]):
+        #print(j, i)
+        while i - len(ans[j]) >= 1:
+            ans[j] += " "
+        ans[j] += s[i][j]
+        j += 1
+  for word in ans:
+    print(word)
+  #for row in rows:
+  #  for element in row:
+  #    printKey += element.rjust(4) + "\n"
+  #  print(printKey)
 
 firstBudget = Category("First_Budget")
 secondBudget = Category("Second_Budget")
