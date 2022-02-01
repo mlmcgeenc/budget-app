@@ -63,11 +63,20 @@ class Category:
     for entry in self.ledger:
       print(entry)
 
+def create_bar(number, string):
+  i = 0
+  while i < number:
+    string = string + 'o'
+    i +=1
+  return string
+
 def create_spend_chart(*categories):
   spendingTotal = categories[0].totalSpent + categories[1].totalSpent + categories[2].totalSpent
   chartKey = ['100|', '90|', '80|', '70|', '60|', '50|', '40|', '30|', '20|', '10|', '0|']
   # str(int(categories[0].totalSpent/spendingTotal*10)).rjust(11) = the number of 'o' that should appear to represent the % of total spending
-  stringOne = str(int(categories[0].totalSpent/spendingTotal*10)).rjust(11) + "_" + categories[0].name
+  strOneBar = ""
+  strOneBarCount = int(categories[0].totalSpent/spendingTotal*10)
+  stringOne = create_bar(strOneBarCount, strOneBar).rjust(11) + "_" + categories[0].name
   stringTwo = str(int(categories[1].totalSpent/spendingTotal*10)).rjust(11) + "_" + categories[1].name
   stringThree = str(int(categories[2].totalSpent/spendingTotal*10)).rjust(11) + "_" + categories[2].name
   
