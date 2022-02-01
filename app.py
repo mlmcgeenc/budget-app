@@ -71,16 +71,19 @@ def create_bar(number, string):
   return string
 
 def create_spend_chart(*categories):
-  spendingTotal = categories[0].totalSpent + categories[1].totalSpent + categories[2].totalSpent
+  #spendingTotal = categories[0].totalSpent + categories[1].totalSpent + categories[2].totalSpent
+  spendingTotal = 0
   chartKey = ['100|', '90|', '80|', '70|', '60|', '50|', '40|', '30|', '20|', '10|', '0|']
-  # str(int(categories[0].totalSpent/spendingTotal*10)).rjust(11) = the number of 'o' that should appear to represent the % of total spending
-  strOneBar = ""
-  strOneBarCount = int(categories[0].totalSpent/spendingTotal*10)
-  stringOne = create_bar(strOneBarCount, strOneBar).rjust(11) + "_" + categories[0].name
-  stringTwo = str(int(categories[1].totalSpent/spendingTotal*10)).rjust(11) + "_" + categories[1].name
-  stringThree = str(int(categories[2].totalSpent/spendingTotal*10)).rjust(11) + "_" + categories[2].name
   
-  strings = [stringOne, stringTwo, stringThree]
+  for category in categories:
+    spendingTotal = spendingTotal + category.totalSpent
+
+  strings = []
+  for category in categories:
+    categoryBar = ""
+    categoryBarCount = int(category.totalSpent/spendingTotal*10)
+    categoryString = create_bar(categoryBarCount, categoryBar).rjust(11) + "_" + category.name
+    strings.append(categoryString)
   # initialize 'lists' with chartKey as
   # the first list.
   lists = [chartKey]
