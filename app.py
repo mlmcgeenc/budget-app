@@ -1,12 +1,14 @@
 class Category:
   name = ""
-  totalSpent = 0
 
-  def __init__(self, name, ledger=None):
+  def __init__(self, name, ledger=None, totalSpent=None):
     self.name = name
     if ledger is None:
       ledger = []
     self.ledger = ledger
+    if totalSpent is None:
+      totalSpent = 0
+    self.totalSpent = totalSpent
 
   def __repr__(self):
     endCap = '*'
@@ -21,7 +23,7 @@ class Category:
       secondHalf = "{:.2f}".format(line["amount"]).rjust(30 - len(firstHalf))
       lineItems.append(firstHalf + secondHalf)
     recieptBody = ("\n".join(lineItems))
-    recieptTotal = "Total: " + "{:.2f}".format(self.get_balance()) + "\n"
+    recieptTotal = "Total: " + "{:.2f}".format(self.get_balance())
     reciept = titleString + "\n" + recieptBody + "\n" + recieptTotal
     return reciept
 
@@ -65,24 +67,23 @@ class Category:
 
 def create_bar(number, string):
   i = 0
-  while i < number:
+  while i < (number + 1):
     string = string + 'o'
     i +=1
   return string
 
-def create_spend_chart(*categories):
-  #spendingTotal = categories[0].totalSpent + categories[1].totalSpent + categories[2].totalSpent
+def create_spend_chart(categories):
   spendingTotal = 0
-  chartKey = ['100|', '90|', '80|', '70|', '60|', '50|', '40|', '30|', '20|', '10|', '0|']
-  
+  chartKey = ['100| ', '90| ', '80| ', '70| ', '60| ', '50| ', '40| ', '30| ', '20| ', '10| ', '0| ', '-']
+
   for category in categories:
     spendingTotal = spendingTotal + category.totalSpent
 
   strings = []
   for category in categories:
     categoryBar = ""
-    categoryBarCount = int(category.totalSpent/spendingTotal*10)
-    categoryString = create_bar(categoryBarCount, categoryBar).rjust(11) + "_" + category.name
+    categoryBarCount = int(int(category.totalSpent)/spendingTotal*10)
+    categoryString = create_bar(categoryBarCount, categoryBar).rjust(11) + "-" + category.name
     strings.append(categoryString)
   # initialize 'lists' with chartKey as
   # the first list.
@@ -118,32 +119,35 @@ def create_spend_chart(*categories):
   while j < rowLen:
     if outPut[j] != None:
       for entry in lists:
-        if entry[j] == "_":
-          outPut[j] += "__"
+        if entry[j] == "-":
+          outPut[j] += "    -" if entry == chartKey else "---"
         else:
-          outPut[j] += entry[j].rjust(4) if entry == chartKey else entry[j][:2].rjust(2)
+          outPut[j] += entry[j].rjust(5) if entry == chartKey else entry[j][:3].ljust(3)
           continue
       j += 1
     else:
       outPut[j] += " "
-  for index in outPut:
-    print(index)
-  for category in categories:
-    print(category.get_balance())
+  chart = "\n".join(outPut)
+  finalString = 'Percentage spent by category' + "\n" + chart
+  
+  return finalString
 
-firstBudget = Category("First Budget")
-secondBudget = Category("Second Budget")
-thirdBudget = Category("Third Budget")
-print("Budgets created:")
-firstBudget.deposit(100, "deposit")
-secondBudget.deposit(100, "deposit")
-thirdBudget.deposit(100, "deposit")
+food = Category("Food")
+food.deposit(1000, "initial deposit")
+food.withdraw(10.15, "groceries")
+food.withdraw(15.89, "restaurant and more food for dessert")
+#print(food.get_balance())
+clothing = Category("Clothing")
+food.transfer(50, clothing)
+clothing.withdraw(25.55)
+clothing.withdraw(100)
+auto = Category("Auto")
+auto.deposit(1000, "initial deposit")
+auto.withdraw(15)
 
-firstBudget.withdraw(10, "withdraw 10")
-secondBudget.withdraw(20, "withdraw 20")
-thirdBudget.withdraw(30, "withdraw 30")
+#print(food)
+#print(clothing)
+#print(auto)
 
-firstBudget.withdraw(10, "withdraw 10")
-secondBudget.withdraw(20, "withdraw 20")
-thirdBudget.withdraw(30, "withdraw 30")
-print(create_spend_chart(firstBudget, secondBudget, thirdBudget))
+print(create_spend_chart([food, clothing, auto]))
+#create_spend_chart([food, clothing, auto])
